@@ -19,4 +19,10 @@ public class AppConstants {
     // Connection
     public static final String NO_CONNECTION = "Internet connection is needed to connect to the server.";
     public static final String CONNECTION_FAILED = "Failed to connect to the server. Try Again later!.";
+
+    // Img dir
+//    public static final String CACHED_IMGS_DIR = "Failed to connect to the server. Try Again later!.";
+    public static final String CACHED_IMGS_DIR = "/data/data/com.photochop.photochop/images/";
+
+
 }
