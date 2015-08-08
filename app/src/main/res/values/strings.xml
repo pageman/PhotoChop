@@ -9,5 +9,7 @@
     <string name="char_count_default">0/500</string>
     <string name="create_post_placeholder">Say something about your request</string>
     <string name="create_post">Post</string>
+    <string name="capture_button">Capture</string>
+    <string name="browse_button">Browse</string>
 
 </resources>
