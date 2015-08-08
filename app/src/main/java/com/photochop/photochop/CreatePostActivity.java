@@ -1,7 +1,6 @@
 package com.photochop.photochop;
 
 import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,14 +8,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -26,20 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.photochop.photochop.util.WebServiceManager;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 
 
 /**
@@ -52,13 +39,15 @@ public class CreatePostActivity extends FragmentActivity {
 
     private ImageView image;
     private AlertDialog alertDialog;
-    private EditText caption;
+    private EditText etCaption;
+    private String caption;
     private TextView captionCounter;
     private Button postButton;
     private final int CAPTURE_IMAGE_REQUEST = 0;
     private final int BROWSE_IMAGE_REQUEST = 1;
     private final int RESPONSE_STATUS_SUCCESS = 1;
     private final int RESPONSE_STATUS_FAIL = 0;
+    private BitmapDrawable drawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +61,10 @@ public class CreatePostActivity extends FragmentActivity {
 
         image = (ImageView) findViewById(R.id.image);
         captionCounter = (TextView) findViewById(R.id.character_count);
-        caption = (EditText) findViewById(R.id.caption);
+        etCaption = (EditText) findViewById(R.id.caption);
         postButton = (Button) findViewById(R.id.post_topic);
 
-        caption.addTextChangedListener(new CaptionTextWatcher());
+        etCaption.addTextChangedListener(new CaptionTextWatcher());
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if (type.startsWith("image/")) {
@@ -105,33 +94,31 @@ public class CreatePostActivity extends FragmentActivity {
 
     public void postTopic(View view) {
         postButton.setEnabled(false);
-        BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
-        byte[] bb = bos.toByteArray();
-
-
-        String device_id = telephonyManager.getSimSerialNumber();
-        String cmd = "addTopic";
-        String caption = this.caption.getText().toString();
-        String file = Base64.encodeToString(bb, Base64.DEFAULT);
-
-        JSONObject request = new JSONObject();
-        try {
-            request.put("deviceid", device_id);
-            request.put("cmd", cmd);
-            request.put("caption", caption);
-            request.put("file", file);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-//        JSONObject result = new WebServiceManager().sendJson(request);
-//        this.parseResult(result);
+//        BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+//        Bitmap bitmap = drawable.getBitmap();
+//
+//        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
+//        byte[] bb = bos.toByteArray();
+//
+//
+//        String device_id = telephonyManager.getSimSerialNumber();
+//        String cmd = "addTopic";
+//        String caption = this.caption.getText().toString();
+//        String file = Base64.encodeToString(bb, Base64.DEFAULT);
+//
+//        JSONObject request = new JSONObject();
+//        try {
+//            request.put("deviceid", device_id);
+//            request.put("cmd", cmd);
+//            request.put("caption", caption);
+//            request.put("file", file);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         SendJsonAsync task = new SendJsonAsync();
-        task.execute(request);
+        task.execute();
     }
 
     private void parseResult(JSONObject json) {
@@ -140,6 +127,8 @@ public class CreatePostActivity extends FragmentActivity {
             String message = json.getString("message");
             if (status == RESPONSE_STATUS_SUCCESS) {
                 Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+                onBackPressed();
+                this.finish();
             }else if(status == RESPONSE_STATUS_FAIL) {
                 Toast.makeText(this,message,Toast.LENGTH_LONG).show();
             }
@@ -188,7 +177,7 @@ public class CreatePostActivity extends FragmentActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            captionCounter.setText(caption.getText().length() + "/500");
+            captionCounter.setText(etCaption.getText().length() + "/500");
         }
 
         @Override
@@ -202,17 +191,43 @@ public class CreatePostActivity extends FragmentActivity {
     private class SendJsonAsync extends AsyncTask<JSONObject, Void, JSONObject>
     {
         ProgressDialog dialog = new ProgressDialog(CreatePostActivity.this);
+        String device_id;
+        String cmd = "addTopic";
+        String file;
 
         @Override
         protected void onPreExecute()
         {
             dialog.setMessage("Please wait...");
             dialog.show();
+            caption = etCaption.getText().toString();
+            drawable = (BitmapDrawable) image.getDrawable();
         }
 
         protected JSONObject doInBackground(JSONObject... params)
         {
-            return ws.samplePost(params[0]);
+            Bitmap bitmap = drawable.getBitmap();
+
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
+            byte[] bb = bos.toByteArray();
+
+
+            device_id = telephonyManager.getSimSerialNumber();
+            cmd = "addTopic";
+            file = Base64.encodeToString(bb, Base64.DEFAULT);
+
+            JSONObject request = new JSONObject();
+            try {
+                request.put("deviceid", device_id);
+                request.put("cmd", cmd);
+                request.put("caption", caption);
+                request.put("file", file);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return ws.samplePost(request);
         }
 
         protected void onPostExecute(JSONObject result)
