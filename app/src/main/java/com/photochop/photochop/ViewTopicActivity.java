@@ -79,5 +79,4 @@ public class ViewTopicActivity extends Activity {
         startActivity(intent);
     }
 
-
 }
