@@ -1,14 +1,22 @@
 package com.photochop.photochop.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.photochop.photochop.AppConstants;
 import com.photochop.photochop.R;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -73,12 +81,15 @@ public class FeedListAdapter extends BaseAdapter
         TextView tvThumbsUp = (TextView) v.findViewById(R.id.tvThumbsUp);
         TextView tvComments = (TextView) v.findViewById(R.id.tvComments);
 
+        UrlImageViewHelper.setUrlDrawable((ImageView) v.findViewById(R.id.ivImage),
+                AppConstants.WS_BASE_URL + item.get("image").toString());
+
         tvCaption.setText(item.get("caption").toString());
         tvThumbsUp.setText(item.get("thumpsup").toString() + "Points");
         tvComments.setText(item.get("totalcomments").toString() + "Comments");
 
-
         return v;
     }
+
 
 }
