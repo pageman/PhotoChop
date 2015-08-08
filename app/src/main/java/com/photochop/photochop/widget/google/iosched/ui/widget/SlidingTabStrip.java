@@ -155,16 +155,6 @@ class SlidingTabStrip extends LinearLayout {
         return Color.rgb((int) r, (int) g, (int) b);
     }
 
-    public void setDividerColors(int[] dividerColors)
-    {
-        this.dividerColors = dividerColors;
-    }
-
-    public int[] getDividerColors()
-    {
-        return dividerColors;
-    }
-
     private static class SimpleTabColorizer implements SlidingTabLayout.TabColorizer
     {
         private int[] mIndicatorColors;
@@ -174,11 +164,6 @@ class SlidingTabStrip extends LinearLayout {
             return mIndicatorColors[position % mIndicatorColors.length];
         }
 
-        @Override
-        public int getDividerColor(int position)
-        {
-            return 0;
-        }
 
         void setIndicatorColors(int... colors) {
             mIndicatorColors = colors;
