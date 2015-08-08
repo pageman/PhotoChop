@@ -34,26 +34,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activity.TabhostActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name=".activity.HotActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name=".activity.PopularActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name=".activity.TrendingActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
     </application>
 
 

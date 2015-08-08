@@ -5,11 +5,27 @@
               android:orientation="vertical"
               tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center"
-        android:text="PhotoChop"
-        android:textSize="40dp"/>
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/layout_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
+
+    <com.photochop.photochop.widget.google.iosched.ui.widget.SlidingTabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:background="@color/colorPrimary"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mPager"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        ></android.support.v4.view.ViewPager>
+
+
 
 </LinearLayout>
