@@ -11,6 +11,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
@@ -82,10 +83,17 @@ public class WebServiceManager
         HttpPost httppost = new HttpPost(url);
         try
         {
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-            nameValuePairs.add(new BasicNameValuePair("param1", param2));
-            nameValuePairs.add(new BasicNameValuePair("param2", param2));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+//            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+//            nameValuePairs.add(new BasicNameValuePair("param1", param2));
+//            nameValuePairs.add(new BasicNameValuePair("param2", param2));
+//            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            JSONObject a  = new JSONObject("{hello1: hi, hello2: hey}");
+            String jsonString = a.toString().substring(1, a.toString().length() - 1);
+
+
+            httppost.setEntity(new StringEntity(jsonString, "UTF8"));
+            httppost.setHeader("Content-type", "application/json");
 
             // Request Parameters
             logParam(param1);
