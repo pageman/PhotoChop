@@ -4,8 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.photochop.photochop.fragment.FeedFragment;
 import com.photochop.photochop.fragment.Tab1;
 import com.photochop.photochop.fragment.Tab2;
+import com.photochop.photochop.fragment.Tab3;
 
 /**
  * Created by Vaughn on 8/8/15.
@@ -30,19 +32,27 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-
-        if(position == 0) // if the position is 0 we are returning the First tab
+        FeedFragment feedFragment = new FeedFragment();
+        switch (position)
         {
-            Tab1 tab1 = new Tab1();
-            return tab1;
+            case 0 :
+            {
+                feedFragment.mCategory = 1;
+            }
+            case 1 :
+            {
+                feedFragment.mCategory = 2;
+            }
+            case 2 :
+            {
+                feedFragment.mCategory = 3;
+            }
+            default:
+            {
+                feedFragment.mCategory = 1;
+            }
+            return feedFragment;
         }
-        else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
-        {
-            Tab2 tab2 = new Tab2();
-            return tab2;
-        }
-
-
     }
 
     // This method return the titles for the Tabs in the Tab Strip

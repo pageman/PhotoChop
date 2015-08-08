@@ -18,7 +18,16 @@ public class Tab1 extends BaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.fragment_tab2, container, false);
+        View v = inflater.inflate(R.layout.fragment_tab1, container, false);
         return v;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+
+
 }

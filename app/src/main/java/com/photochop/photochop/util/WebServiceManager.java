@@ -16,6 +16,7 @@ import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -64,7 +65,7 @@ public class WebServiceManager
         }
     }
 
-    public JSONObject samplePost(JSONObject jsonObject)
+    public JSONObject addTopic(JSONObject jsonObject)
     {
 
         // URL
@@ -81,10 +82,6 @@ public class WebServiceManager
         HttpPost httppost = new HttpPost(url);
         try
         {
-//            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-//            nameValuePairs.add(new BasicNameValuePair("param1", param2));
-//            nameValuePairs.add(new BasicNameValuePair("param2", param2));
-//            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             String jsonString = "{" + jsonObject.toString().substring(1, jsonObject.toString().length() - 1) + "}";
             httppost.setEntity(new StringEntity(jsonString, "UTF8"));
             httppost.setHeader("Content-type", "application/json");
@@ -106,36 +103,42 @@ public class WebServiceManager
         }
     }
 
-    public JSONObject sendJson(final JSONObject jsonObject)
+    public JSONArray getFeed(JSONObject jsonObject)
     {
+        // URL
+        String prefix = "";
+        String url = AppConstants.WS_BASE_URL + prefix;
+        logURL(url);
 
+        // HTTP Request
         HttpClient client = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, "Custom user agent");
+        HttpConnectionParams.setConnectionTimeout(client.getParams(), 3000);
+        HttpConnectionParams.setSoTimeout(client.getParams(), 3000);
         HttpResponse response;
-
+        HttpPost httppost = new HttpPost(url);
         try
         {
-            HttpPost post = new HttpPost(AppConstants.WS_BASE_URL);
-            post.setHeader(CoreProtocolPNames.USER_AGENT,"Mozilla/5.0 (Windows NT 6.2; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
-            StringEntity se = new StringEntity(jsonObject.toString());
-            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-            post.setEntity(se);
-            response = client.execute(post);
+            String jsonString = "{" + jsonObject.toString().substring(1, jsonObject.toString().length() - 1) + "}";
+            httppost.setEntity(new StringEntity(jsonString, "UTF8"));
+            httppost.setHeader("Content-type", "application/json");
 
-            if (response != null)
-            {
-                String _response = EntityUtils.toString(response.getEntity());
+            // Request Parameters
+            logParam(jsonString);
 
-                JSONObject ret = new JSONObject(_response);
-                return ret;
-            }
+            response = client.execute(httppost);
+            HttpEntity resEntity = response.getEntity();
+            String _response = EntityUtils.toString(resEntity); // content will be consume only once
+            log(_response);
+
+            JSONArray jsonResponse = new JSONArray(_response);
+            return jsonResponse;
         } catch (Exception e)
         {
             e.printStackTrace();
+            return new JSONArray();
         }
-        return null;
     }
-
 
     public void log(String msg)
     {

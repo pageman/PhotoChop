@@ -1,4 +1,4 @@
-package com.photochop.photochop;
+package com.photochop.photochop.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.photochop.photochop.R;
 import com.photochop.photochop.util.WebServiceManager;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -206,6 +207,7 @@ public class CreatePostActivity extends FragmentActivity {
 
         protected JSONObject doInBackground(JSONObject... params)
         {
+            return ws.addTopic(params[0]);
             Bitmap bitmap = drawable.getBitmap();
 
             TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
