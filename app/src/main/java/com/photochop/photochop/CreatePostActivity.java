@@ -2,10 +2,12 @@ package com.photochop.photochop;
 
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.MediaStore;
@@ -14,6 +16,7 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -45,6 +48,7 @@ import java.io.InputStream;
 public class CreatePostActivity extends FragmentActivity {
 
     public static final String TAG = "CreatePostActivity";
+    WebServiceManager ws = new WebServiceManager();
 
     private ImageView image;
     private AlertDialog alertDialog;
@@ -60,6 +64,7 @@ public class CreatePostActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
+
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -116,15 +121,17 @@ public class CreatePostActivity extends FragmentActivity {
 
         JSONObject request = new JSONObject();
         try {
-            request.put("device_id", device_id);
+            request.put("deviceid", device_id);
             request.put("cmd", cmd);
             request.put("caption", caption);
             request.put("file", file);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JSONObject result = new WebServiceManager().sendJson(request);
-        this.parseResult(result);
+//        JSONObject result = new WebServiceManager().sendJson(request);
+//        this.parseResult(result);
+        SendJsonAsync task = new SendJsonAsync();
+        task.execute(request);
     }
 
     private void parseResult(JSONObject json) {
@@ -189,4 +196,30 @@ public class CreatePostActivity extends FragmentActivity {
 
         }
     }
+
+
+    // Async Tasks Here....
+    private class SendJsonAsync extends AsyncTask<JSONObject, Void, JSONObject>
+    {
+        ProgressDialog dialog = new ProgressDialog(CreatePostActivity.this);
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Please wait...");
+            dialog.show();
+        }
+
+        protected JSONObject doInBackground(JSONObject... params)
+        {
+            return ws.samplePost(params[0]);
+        }
+
+        protected void onPostExecute(JSONObject result)
+        {
+            dialog.dismiss();
+            parseResult(result);
+        }
+    }
+
 }
