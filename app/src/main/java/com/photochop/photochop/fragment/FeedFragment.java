@@ -1,18 +1,21 @@
 package com.photochop.photochop.fragment;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.photochop.photochop.R;
 import com.photochop.photochop.adapter.FeedListAdapter;
 import com.photochop.photochop.base.BaseFragment;
+import com.photochop.photochop.util.Util;
 import com.photochop.photochop.util.WebServiceManager;
 
 import org.json.JSONArray;
@@ -31,6 +34,8 @@ public class FeedFragment extends BaseFragment
     private FeedListAdapter adapter;
     private WebServiceManager ws = new WebServiceManager();
     public ArrayList<HashMap<String, String>> list = new ArrayList<>();
+    public static int mCategory;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -40,7 +45,8 @@ public class FeedFragment extends BaseFragment
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
 
         // Get ListView object from xml
@@ -50,43 +56,102 @@ public class FeedFragment extends BaseFragment
         // Assign adapter to ListView
         listView.setAdapter(adapter);
 
-        SampleAsync task = new SampleAsync();
-        task.execute();
+
+        TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        String device_id = telephonyManager.getSimSerialNumber();
+
+
+        String cmd;
+        if (getCategory() == 1)
+        {
+            cmd = "getNewsFeed";
+        } else if (getCategory() == 2)
+        {
+            cmd = "getPopular";
+
+        } else
+        {
+            cmd = "getTrending";
+        }
+
+
+        JSONObject request = new JSONObject();
+        try
+        {
+            request.put("deviceid", device_id);
+            request.put("cmd", cmd);
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+//        JSONObject result = new WebServiceManager().sendJson(request);
+//        this.parseResult(result);
+
+
+        GetFeedAsync task = new GetFeedAsync();
+        task.execute(request);
+    }
+
+    private int getCategory()
+    {
+        return mCategory;
     }
 
 
-    private class SampleAsync extends AsyncTask<String, Void, JSONObject>
+    // Async Tasks Here....
+    private class GetFeedAsync extends AsyncTask<JSONObject, Void, JSONArray>
     {
-        protected JSONObject doInBackground(String... params) {
-//            return ws.getCallHistory(params[0]);
-            return new JSONObject();
+        ProgressDialog dialog = new ProgressDialog(getActivity());
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Please wait...");
+            dialog.show();
         }
 
-        protected void onPostExecute(JSONObject result) {
-            Log.e("joint mango and bacon", result.toString());
+        protected JSONArray doInBackground(JSONObject... params)
+        {
+            return ws.getFeed(params[0]);
+        }
 
-            Toast.makeText(getActivity(), result.toString(), Toast.LENGTH_SHORT).show();
-            try {
+        protected void onPostExecute(JSONArray result)
+        {
+            dialog.dismiss();
+            Util.log("GetFeedAsync", result.toString());
+
+            for (int i = 0; i <= result.length(); i++)
+            {
                 HashMap<String, String> cdr;
-
-                JSONArray jsonArray = result.getJSONArray("call_history");
-                for (int n = 0; n < jsonArray.length(); n++) {
+                try
+                {
                     cdr = new HashMap<>();
-                    JSONObject jsonItems = jsonArray.getJSONObject(n);
+                    JSONObject jsonItems = result.getJSONObject(i);
 
-                    cdr.put("to_destination", jsonItems.get("to_destination").toString());
-                    cdr.put("call_price", jsonItems.get("call_price").toString());
-                    cdr.put("call_duration", jsonItems.get("call_duration").toString());
-                    cdr.put("call_date", jsonItems.get("call_date").toString());
-                    cdr.put("call_start", jsonItems.get("call_start").toString());
-                    cdr.put("called_country_code", jsonItems.get("called_country_code").toString());
+                    cdr.put("id", jsonItems.get("id").toString());
+                    cdr.put("createdby", jsonItems.get("createdby").toString());
+                    cdr.put("image", jsonItems.get("image").toString());
+                    cdr.put("caption", jsonItems.get("caption").toString());
+                    cdr.put("thumpsup", jsonItems.get("thumbsup").toString());
+                    cdr.put("datecreated", jsonItems.get("datecreated").toString());
+                    cdr.put("isregistered", jsonItems.get("isregistered").toString());
+                    cdr.put("totalcomments", jsonItems.get("totalcomments").toString());
                     list.add(cdr);
+                } catch (JSONException e)
+                {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
             adapter.notifyDataSetChanged();
-
+//            parseResult(result);
         }
+
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

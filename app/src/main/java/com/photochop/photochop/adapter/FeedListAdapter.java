@@ -69,24 +69,13 @@ public class FeedListAdapter extends BaseAdapter
         // begin paste
         HashMap item = mList.get(position);
 
-        TextView tvNumber = (TextView) v.findViewById(R.id.tvNumber);
-        TextView tvDate = (TextView) v.findViewById(R.id.tvDate);
-        TextView tvTime = (TextView) v.findViewById(R.id.tvTime);
-        TextView tvDuration = (TextView) v.findViewById(R.id.tvDuration);
-        TextView tvPrice = (TextView) v.findViewById(R.id.tvPrice);
+        TextView tvCaption = (TextView) v.findViewById(R.id.tvCaption);
+        TextView tvThumbsUp = (TextView) v.findViewById(R.id.tvThumbsUp);
+        TextView tvComments = (TextView) v.findViewById(R.id.tvComments);
 
-        tvNumber.setText(item.get("to_destination").toString());
-        tvDate.setText(item.get("call_date").toString());
-        tvTime.setText(item.get("call_start").toString());
-        tvDuration.setText(item.get("call_duration").toString());
-        tvPrice.setText("$" + item.get("call_price").toString());
-//
-//        tvNumber.setText("hi");
-//        tvDate.setText("hello");
-//        tvTime.setText("bonbon");
-//        tvDuration.setText("me");
-//        tvPrice.setText("armads ");
-
+        tvCaption.setText(item.get("caption").toString());
+        tvThumbsUp.setText(item.get("thumpsup").toString() + "Points");
+        tvComments.setText(item.get("totalcomments").toString() + "Comments");
 
 
         return v;

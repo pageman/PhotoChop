@@ -1,7 +1,6 @@
-package com.photochop.photochop;
+package com.photochop.photochop.activity;
 
 import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,14 +8,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -25,21 +22,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.photochop.photochop.R;
 import com.photochop.photochop.util.WebServiceManager;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 
 
 /**
@@ -212,7 +201,7 @@ public class CreatePostActivity extends FragmentActivity {
 
         protected JSONObject doInBackground(JSONObject... params)
         {
-            return ws.samplePost(params[0]);
+            return ws.addTopic(params[0]);
         }
 
         protected void onPostExecute(JSONObject result)
