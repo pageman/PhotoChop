@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.ListView;
 
 import com.photochop.photochop.R;
 import com.photochop.photochop.adapter.FeedListAdapter;
+import com.photochop.photochop.base.BaseActivity;
 import com.photochop.photochop.base.BaseFragment;
 import com.photochop.photochop.util.Util;
 import com.photochop.photochop.util.WebServiceManager;
@@ -28,14 +28,12 @@ import java.util.HashMap;
 /**
  * Created by Vaughn on 8/8/15.
  */
-public class FeedFragment extends BaseFragment
+public class TrendingFragment extends BaseFragment
 {
     private ListView listView;
     private FeedListAdapter adapter;
     private WebServiceManager ws = new WebServiceManager();
     public ArrayList<HashMap<String, String>> list = new ArrayList<>();
-    public static int mCategory;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -45,7 +43,7 @@ public class FeedFragment extends BaseFragment
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
 
@@ -59,21 +57,7 @@ public class FeedFragment extends BaseFragment
 
         TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         String device_id = telephonyManager.getSimSerialNumber();
-
-
-        String cmd;
-        if (getCategory() == 1)
-        {
-            cmd = "getNewsFeed";
-        } else if (getCategory() == 2)
-        {
-            cmd = "getPopular";
-
-        } else
-        {
-            cmd = "getTrending";
-        }
-
+        String cmd = "getTrending";
 
         JSONObject request = new JSONObject();
         try
@@ -90,11 +74,6 @@ public class FeedFragment extends BaseFragment
 
         GetFeedAsync task = new GetFeedAsync();
         task.execute(request);
-    }
-
-    private int getCategory()
-    {
-        return mCategory;
     }
 
 
@@ -120,7 +99,7 @@ public class FeedFragment extends BaseFragment
             dialog.dismiss();
             Util.log("GetFeedAsync", result.toString());
 
-            for (int i = 0; i <= result.length(); i++)
+            for (int i = 0; i < result.length(); i++)
             {
                 HashMap<String, String> cdr;
                 try
@@ -146,11 +125,8 @@ public class FeedFragment extends BaseFragment
 //            parseResult(result);
         }
 
+
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-    }
+
 }

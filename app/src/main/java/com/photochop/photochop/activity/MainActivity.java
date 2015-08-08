@@ -40,6 +40,7 @@ public class MainActivity extends BaseFragmentActivity
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.mPager);
         pager.setAdapter(adapter);
+        pager.setOffscreenPageLimit(1);
 
         // Assigning the Sliding Tab Layout View
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
