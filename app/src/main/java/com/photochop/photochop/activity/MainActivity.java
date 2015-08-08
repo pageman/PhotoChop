@@ -1,6 +1,7 @@
 package com.photochop.photochop.activity;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SpinnerAdapter;
 
+import com.photochop.photochop.CreatePostActivity;
 import com.photochop.photochop.R;
 import com.photochop.photochop.adapter.ViewPagerAdapter;
 import com.photochop.photochop.base.BaseActivity;
@@ -23,9 +25,7 @@ public class MainActivity extends BaseFragmentActivity
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
     CharSequence Titles[]={"Hot","Trending", "Popular"};
-    int Numboftabs =3;
-
-
+    int NumbOftabs =3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,7 +35,7 @@ public class MainActivity extends BaseFragmentActivity
 
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
+        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,NumbOftabs);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.mPager);
@@ -58,6 +58,7 @@ public class MainActivity extends BaseFragmentActivity
         tabs.setViewPager(pager);
     }
 
+<<<<<<< HEAD
 
 
     @Override
@@ -66,22 +67,12 @@ public class MainActivity extends BaseFragmentActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+=======
+    public void addButtonPressed(View view){
+        Intent intent = new Intent(this, CreatePostActivity.class);
+        startActivity(intent);
+>>>>>>> 0c078a130daf2fe994bebb6664768f725f8f3835
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

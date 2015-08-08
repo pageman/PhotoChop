@@ -119,6 +119,7 @@ public class WebServiceManager
         HttpPost httppost = new HttpPost(url);
         try
         {
+<<<<<<< HEAD
             String jsonString = "{" + jsonObject.toString().substring(1, jsonObject.toString().length() - 1) + "}";
             httppost.setEntity(new StringEntity(jsonString, "UTF8"));
             httppost.setHeader("Content-type", "application/json");
@@ -133,6 +134,22 @@ public class WebServiceManager
 
             JSONArray jsonResponse = new JSONArray(_response);
             return jsonResponse;
+=======
+            HttpPost post = new HttpPost(AppConstants.WS_BASE_URL);
+            post.setHeader(CoreProtocolPNames.USER_AGENT,"Mozilla/5.0 (Windows NT 6.2; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
+            StringEntity se = new StringEntity(jsonObject.toString());
+            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+            post.setEntity(se);
+            response = client.execute(post);
+
+            if (response != null)
+            {
+                String _response = EntityUtils.toString(response.getEntity());
+
+                JSONObject ret = new JSONObject(_response);
+                return ret;
+            }
+>>>>>>> 0c078a130daf2fe994bebb6664768f725f8f3835
         } catch (Exception e)
         {
             e.printStackTrace();

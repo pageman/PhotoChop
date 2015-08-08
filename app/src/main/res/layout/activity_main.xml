@@ -1,31 +1,45 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context=".MainActivity">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <!--Main Container-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
-    <include
-        android:id="@+id/tool_bar"
-        layout="@layout/layout_toolbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        />
+        <include
+            android:id="@+id/tool_bar"
+            layout="@layout/layout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <com.photochop.photochop.widget.google.iosched.ui.widget.SlidingTabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="2dp"
-        android:background="@color/colorPrimary"/>
+        <com.photochop.photochop.widget.google.iosched.ui.widget.SlidingTabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:elevation="2dp" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/mPager"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        ></android.support.v4.view.ViewPager>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/mPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
 
-
-</LinearLayout>
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom|right"
+        android:elevation="4dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/circle_button"
+        android:text="+"
+        android:textSize="@dimen/abc_text_size_large_material"
+        android:onClick="addButtonPressed"/>
+</FrameLayout>
