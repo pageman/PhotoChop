@@ -1,9 +1,14 @@
 package com.photochop.photochop.activity;
 
+import android.app.ActionBar;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.SpinnerAdapter;
 
 import com.photochop.photochop.R;
 import com.photochop.photochop.adapter.ViewPagerAdapter;
@@ -12,7 +17,7 @@ import com.photochop.photochop.base.BaseFragmentActivity;
 import com.photochop.photochop.widget.google.iosched.ui.widget.SlidingTabLayout;
 
 
-public class MainActivity extends BaseActivity
+public class MainActivity extends BaseFragmentActivity
 {
     ViewPager pager;
     ViewPagerAdapter adapter;
@@ -29,7 +34,6 @@ public class MainActivity extends BaseActivity
         setContentView(R.layout.activity_main);
 
 
-
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
 
@@ -37,7 +41,7 @@ public class MainActivity extends BaseActivity
         pager = (ViewPager) findViewById(R.id.mPager);
         pager.setAdapter(adapter);
 
-        // Assiging the Sliding Tab Layout View
+        // Assigning the Sliding Tab Layout View
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
 
