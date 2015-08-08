@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SpinnerAdapter;
 
-import com.photochop.photochop.CreatePostActivity;
+import com.photochop.photochop.activity.CreatePostActivity;
 import com.photochop.photochop.R;
 import com.photochop.photochop.adapter.ViewPagerAdapter;
 import com.photochop.photochop.base.BaseActivity;
@@ -58,20 +58,9 @@ public class MainActivity extends BaseFragmentActivity
         tabs.setViewPager(pager);
     }
 
-<<<<<<< HEAD
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-=======
     public void addButtonPressed(View view){
         Intent intent = new Intent(this, CreatePostActivity.class);
         startActivity(intent);
->>>>>>> 0c078a130daf2fe994bebb6664768f725f8f3835
     }
 
 
