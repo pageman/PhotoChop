@@ -12,7 +12,7 @@ public class AppConstants {
 
     public static final String APP_NAME = "PhotoChop";
     public static final String APP_DESC = "A Small Photo Community!!";
-    public static final String WS_BASE_URL = "http://photochop.cloudapp.net/index.php";
+    public static final String WS_BASE_URL = "http://photochop.cloudapp.net/";
 
 
 

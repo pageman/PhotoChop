@@ -2,11 +2,14 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="250dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    android:paddingTop="20dp">
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:elevation="2dp"
+    android:layout_marginBottom="10dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -24,18 +27,30 @@
             android:textStyle="bold"
             android:layout_marginBottom="10dp"/>
 
-        <ImageView
-            android:id="@+id/ivImage"
+        <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:background="@drawable/image_placeholder"
-            android:layout_marginBottom="8dp"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="250dp"
+                android:maxHeight="500dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_placeholder"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="8dp"
+                android:onClick="selectImage"/>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
 
             <TextView
                 android:id="@+id/tvThumbsUp"
