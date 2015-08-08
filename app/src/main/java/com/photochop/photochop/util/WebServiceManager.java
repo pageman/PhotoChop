@@ -1,5 +1,6 @@
 package com.photochop.photochop.util;
 
+import android.os.Looper;
 import android.util.Log;
 
 import com.photochop.photochop.AppConstants;
@@ -13,11 +14,14 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +114,31 @@ public class WebServiceManager
             e.printStackTrace();
             return  new JSONObject();
         }
+    }
+
+    public JSONObject sendJson(final JSONObject jsonObject) {
+
+        HttpClient client = new DefaultHttpClient();
+        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+        HttpResponse response;
+
+        try {
+            HttpPost post = new HttpPost(AppConstants.WS_BASE_URL);
+            StringEntity se = new StringEntity(jsonObject.toString());
+            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+            post.setEntity(se);
+            response = client.execute(post);
+
+            if(response!=null){
+                String _response = EntityUtils.toString(response.getEntity());
+
+                JSONObject ret = new JSONObject(_response);
+                return ret;
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
