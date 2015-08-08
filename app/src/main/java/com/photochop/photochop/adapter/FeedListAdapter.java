@@ -74,7 +74,6 @@ public class FeedListAdapter extends BaseAdapter
             v = convertView;
         }
 
-        // begin paste
         HashMap item = mList.get(position);
 
         TextView tvCaption = (TextView) v.findViewById(R.id.tvCaption);
@@ -85,8 +84,8 @@ public class FeedListAdapter extends BaseAdapter
                 AppConstants.WS_BASE_URL + item.get("image").toString());
 
         tvCaption.setText(item.get("caption").toString());
-        tvThumbsUp.setText(item.get("thumpsup").toString() + "Points");
-        tvComments.setText(item.get("totalcomments").toString() + "Comments");
+        tvThumbsUp.setText(item.get("thumpsup").toString() + " Points");
+        tvComments.setText(item.get("totalcomments").toString() + " Comments");
 
         return v;
     }

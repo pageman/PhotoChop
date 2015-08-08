@@ -2,6 +2,7 @@ package com.photochop.photochop.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,11 +10,12 @@ import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.photochop.photochop.R;
+import com.photochop.photochop.ViewTopicActivity;
 import com.photochop.photochop.adapter.FeedListAdapter;
-import com.photochop.photochop.base.BaseActivity;
 import com.photochop.photochop.base.BaseFragment;
 import com.photochop.photochop.util.Util;
 import com.photochop.photochop.util.WebServiceManager;
@@ -54,6 +56,17 @@ public class HotFragment extends BaseFragment
         // Assign adapter to ListView
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Intent i = new Intent(getActivity(), ViewTopicActivity.class);
+                i.putExtra(ViewTopicActivity.TOPIC_ID, list.get(position).get("id"));
+                startActivity(i);
+
+            }
+        });
 
         TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         String device_id = telephonyManager.getSimSerialNumber();
