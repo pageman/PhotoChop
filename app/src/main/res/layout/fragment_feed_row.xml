@@ -27,12 +27,23 @@
             android:textStyle="bold"
             android:layout_marginBottom="10dp"/>
 
-        <ImageView
-            android:id="@+id/ivImage"
+        <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="250dp"
-            android:background="@drawable/image_placeholder"
-            android:layout_marginBottom="8dp"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="250dp"
+                android:maxHeight="500dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_placeholder"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="8dp"
+                android:onClick="selectImage"/>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
