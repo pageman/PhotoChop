@@ -80,13 +80,16 @@ public class FeedListAdapter extends BaseAdapter
         TextView tvCaption = (TextView) v.findViewById(R.id.tvCaption);
         TextView tvThumbsUp = (TextView) v.findViewById(R.id.tvThumbsUp);
         TextView tvComments = (TextView) v.findViewById(R.id.tvComments);
+        ImageView ivImageView = (ImageView) v.findViewById(R.id.ivImage);
 
-        UrlImageViewHelper.setUrlDrawable((ImageView) v.findViewById(R.id.ivImage),
+        UrlImageViewHelper.setUrlDrawable(ivImageView,
                 AppConstants.WS_BASE_URL + item.get("image").toString());
 
+        ivImageView.setContentDescription(item.get("id").toString());
+
         tvCaption.setText(item.get("caption").toString());
-        tvThumbsUp.setText(item.get("thumpsup").toString() + "Points");
-        tvComments.setText(item.get("totalcomments").toString() + "Comments");
+        tvThumbsUp.setText(item.get("thumpsup").toString() + " Points");
+        tvComments.setText(item.get("totalcomments").toString() + " Comments");
 
         return v;
     }
