@@ -116,14 +116,16 @@ public class CreatePostActivity extends FragmentActivity {
 
         JSONObject request = new JSONObject();
         try {
-            request.put("device_id", device_id);
+            request.put("deviceid", device_id);
             request.put("cmd", cmd);
             request.put("caption", caption);
             request.put("file", file);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Toast.makeText(this,caption,Toast.LENGTH_LONG).show();
         JSONObject result = new WebServiceManager().sendJson(request);
+//        Toast.makeText(this,result.toString(),Toast.LENGTH_LONG).show();
         this.parseResult(result);
     }
 

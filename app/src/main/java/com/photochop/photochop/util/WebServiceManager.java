@@ -16,8 +16,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.protocol.RequestUserAgent;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
@@ -117,11 +119,13 @@ public class WebServiceManager
 
         try {
             HttpPost post = new HttpPost(AppConstants.WS_BASE_URL);
+            post.setHeader(CoreProtocolPNames.USER_AGENT,"Mozilla/5.0 (Windows NT 6.2; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
             StringEntity se = new StringEntity(jsonObject.toString());
             se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
             post.setEntity(se);
             response = client.execute(post);
 
+            Log.e("Pek",String.valueOf(response));
             if(response!=null){
                 String _response = EntityUtils.toString(response.getEntity());
 
@@ -129,7 +133,7 @@ public class WebServiceManager
                 return ret;
             }
         } catch(Exception e) {
-            e.printStackTrace();
+            Log.e("Fuck",e.getStackTrace().toString());
         }
         return null;
     }
