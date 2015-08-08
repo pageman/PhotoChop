@@ -1,19 +1,22 @@
-package com.photochop.photochop;
+package com.photochop.photochop.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.photochop.photochop.R;
+import com.photochop.photochop.base.BaseActivity;
 
-public class MainActivity extends Activity
+
+public class MainActivity extends BaseActivity
 {
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_tabhost);
+
     }
 
 
