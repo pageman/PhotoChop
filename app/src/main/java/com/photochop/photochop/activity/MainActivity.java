@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SpinnerAdapter;
 
-import com.photochop.photochop.CreatePostActivity;
+import com.photochop.photochop.activity.CreatePostActivity;
 import com.photochop.photochop.R;
 import com.photochop.photochop.adapter.ViewPagerAdapter;
 import com.photochop.photochop.base.BaseActivity;

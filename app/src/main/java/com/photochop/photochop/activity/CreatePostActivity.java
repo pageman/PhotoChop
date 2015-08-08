@@ -207,7 +207,6 @@ public class CreatePostActivity extends FragmentActivity {
 
         protected JSONObject doInBackground(JSONObject... params)
         {
-            return ws.addTopic(params[0]);
             Bitmap bitmap = drawable.getBitmap();
 
             TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
@@ -229,7 +228,7 @@ public class CreatePostActivity extends FragmentActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return ws.samplePost(request);
+            return ws.addTopic(request);
         }
 
         protected void onPostExecute(JSONObject result)

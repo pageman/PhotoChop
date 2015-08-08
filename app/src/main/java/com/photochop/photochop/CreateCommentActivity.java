@@ -180,7 +180,7 @@ public class CreateCommentActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return ws.samplePost(request);
+            return ws.addTopic(request);
         }
 
         protected void onPostExecute(JSONObject result)
