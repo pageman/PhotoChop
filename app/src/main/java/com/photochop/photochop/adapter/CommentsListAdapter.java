@@ -85,10 +85,8 @@ public class CommentsListAdapter extends BaseAdapter
 
         tvCaption.setText(item.get("caption").toString());
         Util.toast(mContext, item.get("caption").toString());
-        Util.toast(mContext, item.get("thumpsup").toString());
-        Util.toast(mContext, item.get("totalcomments").toString());
-        tvThumbsUp.setText(item.get("thumpsup").toString() + " Points");
-        tvComments.setText(item.get("totalcomments").toString() + " Comments");
+        Util.toast(mContext, item.get("thumbsup").toString());
+        tvThumbsUp.setText(item.get("thumbsup").toString() + " Points");
 
         return v;
     }

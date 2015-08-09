@@ -136,7 +136,7 @@ public class WebServiceManager
         } catch (Exception e)
         {
             e.printStackTrace();
-            return new JSONArray();
+            return null;
         }
     }
 

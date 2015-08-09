@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -95,6 +96,23 @@ public class ViewTopicActivity extends Activity {
         adapter = new CommentsListAdapter(ViewTopicActivity.this, list);
         // Assign adapter to ListView
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Intent i = new Intent(ViewTopicActivity.this, ViewTopicActivity.class);
+                i.putExtra(ViewTopicActivity.TOPIC_ID, list.get(position).get("id"));
+                i.putExtra(ViewTopicActivity.TOPIC_DESC, list.get(position).get("caption"));
+                i.putExtra(ViewTopicActivity.TOPIC_COMMENTS, list.get(position).get("totalcomments"));
+                i.putExtra(ViewTopicActivity.TOPIC_POINTS, list.get(position).get("thumpsup"));
+                i.putExtra(ViewTopicActivity.TOPIC_IMG, list.get(position).get("image"));
+                startActivity(i);
+
+            }
+        });
+
 
 
         TelephonyManager telephonyManager = (TelephonyManager) ViewTopicActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
@@ -201,7 +219,7 @@ public class ViewTopicActivity extends Activity {
                     cdr.put("image", jsonItems.get("image").toString());
                     cdr.put("thumbsup", jsonItems.get("thumbsup").toString());
                     cdr.put("datecreated", jsonItems.get("datecreated").toString());
-                    cdr.put("isregistered", jsonItems.get("isregisterd").toString());
+                    cdr.put("isregistered", jsonItems.get("isregistered").toString());
                     list.add(cdr);
                 } catch (JSONException e)
                 {

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.photochop.photochop.AppConstants;
 import com.photochop.photochop.R;
 import com.photochop.photochop.activity.ViewTopicActivity;
 import com.photochop.photochop.adapter.FeedListAdapter;
@@ -114,32 +115,38 @@ public class TrendingFragment extends BaseFragment
         protected void onPostExecute(JSONArray result)
         {
             dialog.dismiss();
-            Util.log("GetFeedAsync", result.toString());
 
-            for (int i = 0; i < result.length(); i++)
+            try
             {
-                HashMap<String, String> cdr;
-                try
+                Util.log("GetFeedAsync", result.toString());
+                for (int i = 0; i <= result.length(); i++)
                 {
-                    cdr = new HashMap<>();
-                    JSONObject jsonItems = result.getJSONObject(i);
+                    HashMap<String, String> cdr;
+                    try
+                    {
+                        cdr = new HashMap<>();
+                        JSONObject jsonItems = result.getJSONObject(i);
 
-                    cdr.put("id", jsonItems.get("id").toString());
-                    cdr.put("createdby", jsonItems.get("createdby").toString());
-                    cdr.put("image", jsonItems.get("image").toString());
-                    cdr.put("caption", jsonItems.get("caption").toString());
-                    cdr.put("thumpsup", jsonItems.get("thumbsup").toString());
-                    cdr.put("datecreated", jsonItems.get("datecreated").toString());
-                    cdr.put("isregistered", jsonItems.get("isregistered").toString());
-                    cdr.put("totalcomments", jsonItems.get("totalcomments").toString());
-                    list.add(cdr);
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
+                        cdr.put("id", jsonItems.get("id").toString());
+                        cdr.put("createdby", jsonItems.get("createdby").toString());
+                        cdr.put("image", jsonItems.get("image").toString());
+                        cdr.put("caption", jsonItems.get("caption").toString());
+                        cdr.put("thumpsup", jsonItems.get("thumbsup").toString());
+                        cdr.put("datecreated", jsonItems.get("datecreated").toString());
+                        cdr.put("isregistered", jsonItems.get("isregistered").toString());
+                        cdr.put("totalcomments", jsonItems.get("totalcomments").toString());
+                        list.add(cdr);
+                    } catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
+                adapter.notifyDataSetChanged();
             }
-            adapter.notifyDataSetChanged();
-//            parseResult(result);
+            catch (NullPointerException e)
+            {
+                Util.displayPopup(getActivity(), AppConstants.APP_NAME, AppConstants.CONNECTION_FAILED);
+            }
         }
 
 
