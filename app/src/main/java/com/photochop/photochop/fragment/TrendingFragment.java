@@ -14,9 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.photochop.photochop.R;
-import com.photochop.photochop.ViewTopicActivity;
+import com.photochop.photochop.activity.ViewTopicActivity;
 import com.photochop.photochop.adapter.FeedListAdapter;
-import com.photochop.photochop.base.BaseActivity;
 import com.photochop.photochop.base.BaseFragment;
 import com.photochop.photochop.util.Util;
 import com.photochop.photochop.util.WebServiceManager;
@@ -63,6 +62,10 @@ public class TrendingFragment extends BaseFragment
             {
                 Intent i = new Intent(getActivity(), ViewTopicActivity.class);
                 i.putExtra(ViewTopicActivity.TOPIC_ID, list.get(position).get("id"));
+                i.putExtra(ViewTopicActivity.TOPIC_DESC, list.get(position).get("caption"));
+                i.putExtra(ViewTopicActivity.TOPIC_COMMENTS, list.get(position).get("totalcomments"));
+                i.putExtra(ViewTopicActivity.TOPIC_POINTS, list.get(position).get("thumpsup"));
+                i.putExtra(ViewTopicActivity.TOPIC_IMG, list.get(position).get("image"));
                 startActivity(i);
 
             }

@@ -1,29 +1,26 @@
 package com.photochop.photochop.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.photochop.photochop.AppConstants;
 import com.photochop.photochop.R;
+import com.photochop.photochop.util.Util;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Created by Vaughn on 8/8/15.
  */
-public class FeedListAdapter extends BaseAdapter
+public class CommentsListAdapter extends BaseAdapter
 {
 
 
@@ -31,7 +28,7 @@ public class FeedListAdapter extends BaseAdapter
     private ArrayList<HashMap<String, String>> mList;
 
 
-    public FeedListAdapter(Context context, ArrayList<HashMap<String, String>> list)
+    public CommentsListAdapter(Context context, ArrayList<HashMap<String, String>> list)
     {
         super();
         mContext = context;
@@ -68,7 +65,7 @@ public class FeedListAdapter extends BaseAdapter
         if (convertView == null)
         {
             LayoutInflater li = LayoutInflater.from(mContext);
-            v = li.inflate(R.layout.fragment_feed_row, null);
+            v = li.inflate(R.layout.activity_view_topic_comment_row, null);
         } else
         {
             v = convertView;
@@ -87,6 +84,9 @@ public class FeedListAdapter extends BaseAdapter
         ivImageView.setContentDescription(item.get("id").toString());
 
         tvCaption.setText(item.get("caption").toString());
+        Util.toast(mContext, item.get("caption").toString());
+        Util.toast(mContext, item.get("thumpsup").toString());
+        Util.toast(mContext, item.get("totalcomments").toString());
         tvThumbsUp.setText(item.get("thumpsup").toString() + " Points");
         tvComments.setText(item.get("totalcomments").toString() + " Comments");
 

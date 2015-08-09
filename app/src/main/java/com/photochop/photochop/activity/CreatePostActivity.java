@@ -22,7 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.photochop.photochop.AppConstants;
 import com.photochop.photochop.R;
+import com.photochop.photochop.util.Util;
 import com.photochop.photochop.util.WebServiceManager;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -128,10 +130,14 @@ public class CreatePostActivity extends FragmentActivity {
             String message = json.getString("message");
             if (status == RESPONSE_STATUS_SUCCESS) {
                 Toast.makeText(this,message,Toast.LENGTH_LONG).show();
-                onBackPressed();
+                new MainActivity().finish();
+                Intent i = new Intent(CreatePostActivity.this, MainActivity.class);
+                startActivity(i);
                 this.finish();
             }else if(status == RESPONSE_STATUS_FAIL) {
                 Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+                Util.displayPopup(CreatePostActivity.this, AppConstants.APP_NAME, AppConstants.CONNECTION_FAILED);
+
             }
         }catch (Exception e) {
             e.printStackTrace();

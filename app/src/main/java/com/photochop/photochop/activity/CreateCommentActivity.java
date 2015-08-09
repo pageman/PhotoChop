@@ -1,4 +1,4 @@
-package com.photochop.photochop;
+package com.photochop.photochop.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,7 +15,6 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.photochop.photochop.R;
 import com.photochop.photochop.util.WebServiceManager;
 
 import org.json.JSONException;

@@ -140,6 +140,43 @@ public class WebServiceManager
         }
     }
 
+    public JSONArray getComments(JSONObject jsonObject)
+    {
+        // URL
+        String prefix = "";
+        String url = AppConstants.WS_BASE_URL + prefix;
+        logURL(url);
+
+        // HTTP Request
+        HttpClient client = new DefaultHttpClient();
+        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, "Custom user agent");
+        HttpConnectionParams.setConnectionTimeout(client.getParams(), 3000);
+        HttpConnectionParams.setSoTimeout(client.getParams(), 3000);
+        HttpResponse response;
+        HttpPost httppost = new HttpPost(url);
+        try
+        {
+            String jsonString = "{" + jsonObject.toString().substring(1, jsonObject.toString().length() - 1) + "}";
+            httppost.setEntity(new StringEntity(jsonString, "UTF8"));
+            httppost.setHeader("Content-type", "application/json");
+
+            // Request Parameters
+            logParam(jsonString);
+
+            response = client.execute(httppost);
+            HttpEntity resEntity = response.getEntity();
+            String _response = EntityUtils.toString(resEntity); // content will be consume only once
+            log(_response);
+
+            JSONArray jsonResponse = new JSONArray(_response);
+            return jsonResponse;
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return new JSONArray();
+        }
+    }
+
     public void log(String msg)
     {
         Log.e(TAG, msg);
