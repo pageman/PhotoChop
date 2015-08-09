@@ -5,9 +5,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.photochop.photochop.fragment.FeedFragment;
-import com.photochop.photochop.fragment.Tab1;
-import com.photochop.photochop.fragment.Tab2;
-import com.photochop.photochop.fragment.Tab3;
+import com.photochop.photochop.fragment.HotFragment;
+import com.photochop.photochop.fragment.PopularFragment;
+import com.photochop.photochop.fragment.TrendingFragment;
 
 /**
  * Created by Vaughn on 8/8/15.
@@ -32,26 +32,27 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-        FeedFragment feedFragment = new FeedFragment();
+        HotFragment hotFragment = new HotFragment();
+        TrendingFragment trendingFragment = new TrendingFragment();
+        PopularFragment popularFragment = new PopularFragment();
         switch (position)
         {
             case 0 :
             {
-                feedFragment.mCategory = 1;
+                return hotFragment;
             }
             case 1 :
             {
-                feedFragment.mCategory = 2;
+                return trendingFragment;
             }
             case 2 :
             {
-                feedFragment.mCategory = 3;
+                return popularFragment;
             }
             default:
             {
-                feedFragment.mCategory = 1;
+                return hotFragment;
             }
-            return feedFragment;
         }
     }
 

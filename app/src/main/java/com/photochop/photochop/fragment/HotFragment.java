@@ -2,17 +2,19 @@ package com.photochop.photochop.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.photochop.photochop.R;
+import com.photochop.photochop.activity.ViewTopicActivity;
 import com.photochop.photochop.adapter.FeedListAdapter;
 import com.photochop.photochop.base.BaseFragment;
 import com.photochop.photochop.util.Util;
@@ -28,14 +30,12 @@ import java.util.HashMap;
 /**
  * Created by Vaughn on 8/8/15.
  */
-public class FeedFragment extends BaseFragment
+public class HotFragment extends BaseFragment
 {
     private ListView listView;
     private FeedListAdapter adapter;
     private WebServiceManager ws = new WebServiceManager();
     public ArrayList<HashMap<String, String>> list = new ArrayList<>();
-    public static int mCategory;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -45,7 +45,7 @@ public class FeedFragment extends BaseFragment
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
 
@@ -56,24 +56,25 @@ public class FeedFragment extends BaseFragment
         // Assign adapter to ListView
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Intent i = new Intent(getActivity(), ViewTopicActivity.class);
+                i.putExtra(ViewTopicActivity.TOPIC_ID, list.get(position).get("id"));
+                i.putExtra(ViewTopicActivity.TOPIC_DESC, list.get(position).get("caption"));
+                i.putExtra(ViewTopicActivity.TOPIC_COMMENTS, list.get(position).get("totalcomments"));
+                i.putExtra(ViewTopicActivity.TOPIC_POINTS, list.get(position).get("thumpsup"));
+                i.putExtra(ViewTopicActivity.TOPIC_IMG, list.get(position).get("image"));
+                startActivity(i);
+
+            }
+        });
 
         TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         String device_id = telephonyManager.getSimSerialNumber();
-
-
-        String cmd;
-        if (getCategory() == 1)
-        {
-            cmd = "getNewsFeed";
-        } else if (getCategory() == 2)
-        {
-            cmd = "getPopular";
-
-        } else
-        {
-            cmd = "getTrending";
-        }
-
+        String cmd = "getNewsFeed";
 
         JSONObject request = new JSONObject();
         try
@@ -90,11 +91,6 @@ public class FeedFragment extends BaseFragment
 
         GetFeedAsync task = new GetFeedAsync();
         task.execute(request);
-    }
-
-    private int getCategory()
-    {
-        return mCategory;
     }
 
 
@@ -120,7 +116,7 @@ public class FeedFragment extends BaseFragment
             dialog.dismiss();
             Util.log("GetFeedAsync", result.toString());
 
-            for (int i = 0; i <= result.length(); i++)
+            for (int i = 0; i < result.length(); i++)
             {
                 HashMap<String, String> cdr;
                 try
@@ -146,11 +142,8 @@ public class FeedFragment extends BaseFragment
 //            parseResult(result);
         }
 
+
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-    }
+
 }

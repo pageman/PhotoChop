@@ -1,4 +1,4 @@
-package com.photochop.photochop;
+package com.photochop.photochop.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,7 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.photochop.photochop.activity.MainActivity;
+import com.photochop.photochop.R;
 
 /**
  * Created by alex on 8/9/15.

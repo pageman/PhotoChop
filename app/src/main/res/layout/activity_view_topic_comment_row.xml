@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:elevation="2dp"
     android:orientation="vertical"
+    android:paddingBottom="20dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp"
-    android:elevation="2dp"
-    android:layout_marginBottom="10dp">
+    android:paddingTop="20dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical">
-
 
 
         <RelativeLayout
@@ -28,12 +26,12 @@
                 android:id="@+id/ivImage"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="250dp"
-                android:maxHeight="500dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/image_placeholder"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp"
+                android:maxHeight="500dp"
+                android:minHeight="250dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_placeholder" />
 
         </RelativeLayout>
 
@@ -41,18 +39,18 @@
             android:id="@+id/tvCaption"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:singleLine="false"
             android:text="Hakuna Matata Folks!putan sad  dsad dsa gianng matata folks"
             android:textSize="15dp"
-            android:textStyle="bold"
-            android:layout_marginBottom="10dp"/>
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvThumbsUp"
@@ -60,21 +58,22 @@
                 android:layout_height="wrap_content"
                 android:text="3 Points"
                 android:textSize="15dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="  |  "
                 android:textSize="15dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tvComments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3 Comments"
                 android:textSize="15dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 

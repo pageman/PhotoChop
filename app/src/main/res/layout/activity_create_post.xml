@@ -65,7 +65,8 @@
                     android:gravity="top|start"
                     android:textColor="@color/button_material_dark"
                     android:hint="@string/create_post_placeholder"
-                    android:layout_weight="8"/>
+                    android:layout_weight="8"
+                    android:capitalize="sentences"/>
 
                 <Button
                     android:id="@+id/post_topic"
