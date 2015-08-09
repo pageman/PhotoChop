@@ -83,10 +83,12 @@ public class CommentsListAdapter extends BaseAdapter
 
         ivImageView.setContentDescription(item.get("id").toString());
 
-        tvCaption.setText(item.get("caption").toString());
+
         Util.toast(mContext, item.get("caption").toString());
         Util.toast(mContext, item.get("thumbsup").toString());
         tvThumbsUp.setText(item.get("thumbsup").toString() + " Points");
+
+        tvCaption.setText(item.get("caption").toString());
 
         return v;
     }
